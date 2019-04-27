@@ -77,22 +77,12 @@ void histo(int x,int y){
   stroke(0);
 }
 
-<<<<<<< HEAD
 Button b1 = new Button(150, 380,1, "Video");
 Button b2 = new Button(350, 380,1, "Gray");
 Button b3 = new Button(150, 440,1, "Edge");
 Button b4 = new Button(350, 440,1, "Sharpen");
 Button b5 = new Button(150, 500,1, "Box blur");
 Button b6 = new Button(350, 500,1, "Gaussian blur");
-=======
-Button b1 = new Button(200, 350,1, "Edge");
-Button b2 = new Button(200, 410,1, "Sharpen");
-Button b3 = new Button(200, 470,1, "Box blur");
-Button b4 = new Button(200, 530,1, "Gaussian blur");
-Button b5 = new Button(400, 350,1, "Gray");
-Button b6 = new Button(400, 410,1, "Imagen/Video");
-
->>>>>>> a321e848d9acca532d14274109d34424adc5046b
 
 void draw() {
   background(209);
@@ -217,9 +207,7 @@ void mouseReleased(){
     kerneli = kernel4;
     kernelb = true;
     gray = false;
-  }
-<<<<<<< HEAD
-  
+  }  
   
 }
 
@@ -229,13 +217,5 @@ void keyPressed(){
     gray = !gray;    
   }else if(key == 's') {    
     kernelb = !kernelb;
-=======
-  if(b5.click()){
-    kernelb = false;
-    gray = true;
-  }
-  if(b6.click()){
-    video = !video;
->>>>>>> a321e848d9acca532d14274109d34424adc5046b
   }
 }
