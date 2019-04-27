@@ -1,6 +1,9 @@
+import processing.video.*;
+Movie myMovie;
+
 PGraphics c_img;
 PGraphics c_edit;
-PImage img;
+PImage img, img2;
 PImage img_edit;
 
 int histo[] = new int[256];
@@ -20,9 +23,10 @@ float kernel2[][] = {{0,-1,0},{-1,5,-1},{0,-1,0}};               //Sharpen
 float kernel3[][] = {{0.111,0.111,0.111},{0.111,0.111,0.111},{0.111,0.111,0.111}}; //Box blur
 float kernel4[][] = {{0.0625,0.125,0.0625},{0.125,0.24,0.125},{0.0625,0.125,0.0625}}; //Gaussian blur
 
-boolean gray = false;
+boolean gray = true;
 boolean kernelb = false;
 boolean histobool = true;
+boolean video = false;
 
 class Button{
   int x,y,f;
@@ -39,6 +43,7 @@ class Button{
     return bx && by?true:false;
   }
   void draw(PGraphics p){
+    fill(255);
     p.rect(x, y, 150, 50, 7);
     p.textSize(12);
     fill(0, 0, 0);
@@ -48,10 +53,13 @@ class Button{
 }
 
 
+int w = 555;
+int h = 312;
+
 void setup() {
   size(1200, 600);
-  int w = 555;
-  int h = 312;
+  myMovie = new Movie(this, "test.mkv");
+  myMovie.loop();
   c_img = createGraphics(w,h);
   c_edit = createGraphics(w,h);
   img = loadImage("img.jpg");
@@ -62,7 +70,7 @@ void setup() {
 
 void histo(int x,int y){  
   for (int i = 0; i < histo.length; i ++) {  
-    int aux = int(map(histo[i],0,max(histo),0,223));
+    int aux = int(map(histo[i],0,max(histo),0, 218));
     if(i <= maxGray && i >= minGray)stroke(12);
     else stroke(255);
     line(x+i*2, y, x+i*2, y-aux);
@@ -78,6 +86,9 @@ Button b5 = new Button(400, 350,1, "Gray");
 
 
 void draw() {
+  background(209);
+  fill(0);
+  text("FrameRate: " + frameRate/60 * 100 + "%", 615, 352);
   
   b1.draw(g);
   b2.draw(g);
@@ -85,18 +96,26 @@ void draw() {
   b4.draw(g);
   b5.draw(g);
   
+  if (video) {
+    img2 = myMovie.get(); 
+    img2.resize(w, h);
+  }else {
+    img2 = img;
+  }
+  
   c_img.beginDraw();  
   c_img.stroke(255);
-  c_img.image(img,0,0);
-  
+  c_img.image(img2,0,0);
   c_img.endDraw();
   
   c_edit.beginDraw();
   c_edit.background(255,0,0);
-  c_edit.image(img,0,0);
+  c_edit.image(img2,0,0);
   if(gray){  
+    c_edit.loadPixels();
+    c_img.loadPixels();
     for (int i = 0; i < c_edit.pixels.length ; i++) {
-      int g = int((red(img.pixels[i]) + green(img.pixels[i]) + blue(img.pixels[i]))/3);
+      int g = int((red(c_img.pixels[i]) + green(c_img.pixels[i]) + blue(c_img.pixels[i]))/3);
       if(g <= maxGray && g >= minGray){
         c_edit.pixels[i] = color(g);
       }else{
@@ -131,13 +150,17 @@ void draw() {
     }    
     c_edit.updatePixels();
   }
-  
+  c_edit.updatePixels();
   c_edit.endDraw(); 
   
   
   image(c_img, 30, 30);
   image(c_edit, 615, 30);
   if(gray)histo(histoX,histoY);
+}
+
+void movieEvent(Movie m) {
+  m.read();
 }
 
 void mousePressed(){
@@ -185,6 +208,8 @@ void keyPressed(){
     gray = !gray;    
   }else if(key == 's') {    
     kernelb = !kernelb;
+  }else if(key == 'v') {
+    video = !video;
   }
   
 }
