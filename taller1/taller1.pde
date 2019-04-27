@@ -83,18 +83,20 @@ Button b2 = new Button(200, 410,1, "Sharpen");
 Button b3 = new Button(200, 470,1, "Box blur");
 Button b4 = new Button(200, 530,1, "Gaussian blur");
 Button b5 = new Button(400, 350,1, "Gray");
+Button b6 = new Button(400, 410,1, "Imagen/Video");
 
 
 void draw() {
   background(209);
   fill(0);
-  text("FrameRate: " + frameRate/60 * 100 + "%", 615, 352);
+  text("FrameRate: " + frameRate/60 * 100 + " %", 615, 352);
   
   b1.draw(g);
   b2.draw(g);
   b3.draw(g);
   b4.draw(g);
   b5.draw(g);
+  b6.draw(g);
   
   if (video) {
     img2 = myMovie.get(); 
@@ -198,17 +200,7 @@ void mouseReleased(){
     kernelb = false;
     gray = true;
   }
-  
-  
-}
-
-
-void keyPressed(){
-  if(key == 'a'){
-    gray = !gray;    
-  }else if(key == 's') {    
-    kernelb = !kernelb;
-  }else if(key == 'v') {
+  if(b6.click()){
     video = !video;
   }
   
