@@ -59,7 +59,6 @@ int h = 312;
 void setup() {
   size(1200, 600);
   myMovie = new Movie(this, "test.mkv");
-  myMovie.loop();
   c_img = createGraphics(w,h);
   c_edit = createGraphics(w,h);
   img = loadImage("img.jpg");
@@ -70,7 +69,7 @@ void setup() {
 
 void histo(int x,int y){  
   for (int i = 0; i < histo.length; i ++) {  
-    int aux = int(map(histo[i],0,max(histo),0, 218));
+    int aux = int(map(histo[i],0,max(histo),0, 213));
     if(i <= maxGray && i >= minGray)stroke(12);
     else stroke(255);
     line(x+i*2, y, x+i*2, y-aux);
@@ -78,12 +77,12 @@ void histo(int x,int y){
   stroke(0);
 }
 
-Button b1 = new Button(200, 350,1, "Edge");
-Button b2 = new Button(200, 410,1, "Sharpen");
-Button b3 = new Button(200, 470,1, "Box blur");
-Button b4 = new Button(200, 530,1, "Gaussian blur");
-Button b5 = new Button(400, 350,1, "Gray");
-
+Button b1 = new Button(150, 380,1, "Video");
+Button b2 = new Button(350, 380,1, "Gray");
+Button b3 = new Button(150, 440,1, "Edge");
+Button b4 = new Button(350, 440,1, "Sharpen");
+Button b5 = new Button(150, 500,1, "Box blur");
+Button b6 = new Button(350, 500,1, "Gaussian blur");
 
 void draw() {
   background(209);
@@ -95,6 +94,7 @@ void draw() {
   b3.draw(g);
   b4.draw(g);
   b5.draw(g);
+  b6.draw(g);
   
   if (video) {
     img2 = myMovie.get(); 
@@ -114,6 +114,7 @@ void draw() {
   if(gray){  
     c_edit.loadPixels();
     c_img.loadPixels();
+    histo = new int[256];
     for (int i = 0; i < c_edit.pixels.length ; i++) {
       int g = int((red(c_img.pixels[i]) + green(c_img.pixels[i]) + blue(c_img.pixels[i]))/3);
       if(g <= maxGray && g >= minGray){
@@ -122,10 +123,8 @@ void draw() {
         c_img.pixels[i] = color(0,0,0);
         c_edit.pixels[i] = color(0,0,0);
       }
-      
-      if(histobool)histo[g] = histo[g]+1;
+      histo[g] = histo[g]+1;
     }
-    if(histobool) histobool = !histobool;
     c_edit.updatePixels();
     c_img.updatePixels();
   }else if(kernelb){
@@ -175,28 +174,39 @@ void mouseReleased(){
   }
  
   if(b1.click()){
+    video = !video;
+    if (b1.text == "Video") {
+      b1.text = "Imagen";
+      myMovie.loop();
+    } else {
+      b1.text = "Video";
+      myMovie.stop();
+    }
+  }
+  if(b2.click()){
+    kernelb = false;
+    gray = true;
+
+  }
+  if(b3.click()){
     kerneli = kernel1;
     kernelb = true;
     gray = false;
   }
-  if(b2.click()){
+  if(b4.click()){
     kerneli = kernel2;
     kernelb = true;
     gray = false;
   }
-  if(b3.click()){
+  if(b5.click()){
     kerneli = kernel3;
     kernelb = true;
     gray = false;
   }
-  if(b4.click()){
+  if(b6.click()){
     kerneli = kernel4;
     kernelb = true;
     gray = false;
-  }
-  if(b5.click()){
-    kernelb = false;
-    gray = true;
   }
   
   
@@ -208,8 +218,5 @@ void keyPressed(){
     gray = !gray;    
   }else if(key == 's') {    
     kernelb = !kernelb;
-  }else if(key == 'v') {
-    video = !video;
   }
-  
 }
