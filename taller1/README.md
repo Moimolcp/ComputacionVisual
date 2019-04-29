@@ -27,7 +27,7 @@ Complete la tabla:
 
 ## Discusión
 
-####Actividades realizadas:
+#### Actividades realizadas:
 
 Se crearon dos canvas utilizando la clase PGraphics, en uno se muestra la imagen o video original y en el otro la imagen o video transformada, también se implementó una clase button para la creación de botones que permiten alternar entre las distintas operaciones que realiza el programa.
 
@@ -41,7 +41,7 @@ Se crearon dos canvas utilizando la clase PGraphics, en uno se muestra la imagen
 
 * **Medición de eficiencia computacional:** Este se calcula utilizando la variable de Processing frameRate, a partir de este valor se calcula el porcentaje al que está corriendo el programa en cada momento a partir de un frameRate base de 60 frames.
 
-####Resultados:
+#### Resultados:
 
 Aunque las máscaras de convolución obtienen buenos resultados, al aplicarlas en tiempo real sobre un clip de vídeo el rendimiento se ve notablemente afectado al ser una operación demasiado costosa
 
