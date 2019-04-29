@@ -27,7 +27,23 @@ Complete la tabla:
 
 ## Discusión
 
-(describa brevemente las actividades realizadas y los resultados obtenidos)
+####Actividades realizadas:
+
+Se crearon dos canvas utilizando la clase PGraphics, en uno se muestra la imagen o video original y en el otro la imagen o video transformada, también se implementó una clase button para la creación de botones que permiten alternar entre las distintas operaciones que realiza el programa.
+
+* **Escala de grises:** Para la conversión de la imagen a escala de grises se calculó el promedio de rgb para cada pixel en la imagen o video.
+
+* **Máscaras de convolución:** Se aplicaron cuatro diferentes máscaras de convolución, Edge Detection, Sharpen, Box Blur y Gaussian Blur.
+
+* **Histograma:** Se implementó el histograma utilizando un arreglo de tamaño 256 donde se guarda la frecuencia de cada valor de gris de la imagen en escala de grises, este histograma es dibujado debajo de la imagen haciendo uso de la función line() para representar cada valor.
+
+* **Segmentación:** La segmentación se implementó utilizando las funciones mousePressed() y mouseReleased(), así con tan solo un clic y arrastre se demarca la franja del histograma en la que se desea hacer la segmentación, esta segmentación es mostrada tanto en la imagen o video original como en la imagen o video transformada.
+
+* **Medición de eficiencia computacional:** Este se calcula utilizando la variable de Processing frameRate, a partir de este valor se calcula el porcentaje al que está corriendo el programa en cada momento a partir de un frameRate base de 60 frames.
+
+####Resultados:
+
+Aunque las máscaras de convolución obtienen buenos resultados, al aplicarlas en tiempo real sobre un clip de vídeo el rendimiento se ve notablemente afectado al ser una operación demasiado costosa
 
 ## Entrega
 
