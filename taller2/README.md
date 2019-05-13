@@ -23,11 +23,11 @@ Complete la tabla:
 
 | Ilusión | Categoria | Referencia | Tipo de interactividad (si aplica) | URL código base (si aplica) |
 |---------|-----------|------------|------------------------------------|-----------------------------|
-|         |           |            |                                    |                             |
-|         |           |            |                                    |                             |
-|         |           |            |                                    |                             |
-|         |           |            |                                    |                             |
-|         |           |            |                                    |                             |
+|Café Wall Illusion|Geométrica|https://michaelbach.de/ot/ang-cafewall/index.html |Mover el mouse a través de la pantalla|                             |
+|“Stepping feet” Motion Illusion|Movimiento|https://michaelbach.de/ot/mot-feetLin/index.html |Clic para quitar las líneas de fondo|                             |
+|Ebbinghaus Illusion|Cognitiva|https://michaelbach.de/ot/cog-Ebbinghaus/index.html |Clic para quitar los círculos azules|                             |
+|Reverse Phi Illusion|Movimiento|https://michaelbach.de/ot/mot-reversePhi/index.html |                                    |                             |
+|White Xmas|Color|https://michaelbach.de/ot/col-whiteXmas/index.html |                                    |                             |
 |         |           |            |                                    |                             |
 
 2. Describa brevememente las referencias estudiadas y los posibles temas en los que le gustaría profundizar
