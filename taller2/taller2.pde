@@ -53,39 +53,28 @@ void draw() {
 }
 
 // https://michaelbach.de/ot/col-whiteXmas/index.html
-void col_whiteXmas(){
-  fill(0);
-  rect(0, 0, width/2, height);
-  noStroke();
-  fill(0, 0, 255);
-  triangle(75, 0, 0, 300, 150, 300);
-  int w = 30;
-  rect(75-w/2, 300, w, w*2);
-  
-  // Black and White background
-  int lines = 20;
+void col_whiteXmas(){  
+  background(255);  
+  fill(0, 100, 230);
+  triangle(25, 600, 175, 200, 325, 600);
+  canvas.beginDraw();
+  canvas.noStroke();
+  canvas.background(0);
+  canvas.fill(0, 100, 230);  
+  canvas.triangle(mouseX-150, 600, mouseX, 200, 150 + mouseX, 600);
+  int lines = 15;
   int size = height / (lines * 2);
-  for(int i = 0; i < lines; i++) {
-    fill(255);
-    rect(0, size * (i * 2), width/2, size);
-  }
-  
-  fill(255);
-  rect(width/2, 0, width/2, height);
-  noStroke();
-
-  fill(0, 0, 255);
-  triangle(75 + width/2, 0, 0 + width/2, 300, 150 + width/2, 300);
-  rect(75-w/2 + width/2, 300, w, w*2);
-  
-  // Black and White background
-  for(int i = 0; i < lines && mousePressed == false; i++) {
-    fill(0);
-    rect(width/2, size * (i * 2)+size, width/2, size);
-  }
-  
-  image(canvas,0,0);  
-
+  canvas.loadPixels();
+  for(int i = 0; i < 800 ; i++){
+    for(int j = 0; j < 800 ; j++){
+      if((j / size)%2 == 0){
+        canvas.pixels[i + j*800] = color(0, 0);
+      }
+    }
+  } 
+  canvas.updatePixels();  
+  canvas.endDraw(); 
+  image(canvas,0,0);
 }
 
 // https://michaelbach.de/ot/mot-reversePhi/index.html
