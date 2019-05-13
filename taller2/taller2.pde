@@ -48,93 +48,12 @@ void draw() {
       col_whiteXmas();
       break;
     case 6:
+      lilac_chaser();
       break;
   }
 }
 
-// https://michaelbach.de/ot/col-whiteXmas/index.html
-void col_whiteXmas(){  
-  background(255);  
-  fill(0, 100, 230);
-  triangle(25, 600, 175, 200, 325, 600);
-  canvas.beginDraw();
-  canvas.noStroke();
-  canvas.background(0);
-  canvas.fill(0, 100, 230);  
-  canvas.triangle(mouseX-150, 600, mouseX, 200, 150 + mouseX, 600);
-  int lines = 15;
-  int size = height / (lines * 2);
-  canvas.loadPixels();
-  for(int i = 0; i < 800 ; i++){
-    for(int j = 0; j < 800 ; j++){
-      if((j / size)%2 == 0){
-        canvas.pixels[i + j*800] = color(0, 0);
-      }
-    }
-  } 
-  canvas.updatePixels();  
-  canvas.endDraw(); 
-  image(canvas,0,0);
-}
-
-// https://michaelbach.de/ot/mot-reversePhi/index.html
-int state = 0;
-void mot_reversePhi(){
-  frameRate(14);
-  switch(state) {
-    case 0:
-      image(img_1_n, 0, 0);
-      state = (state + 1) % 4;
-      break;
-    case 1:
-      image(img_2_n, 0, 0);
-      state = (state + 1) % 4;
-      break;
-    case 2:
-      image(img_1, 0, 0);
-      state = (state + 1) % 4;
-      break;
-    case 3:
-      image(img_2, 0, 0);
-      state = (state + 1) % 4;
-      break;
-  }
-}
-
-
-// Movement
-// http://anstislab.ucsd.edu/illusions/footsteps/
-int x1 = 0, x2 = 0;
-int y1 = 330, y2 = 470;
-int xplus = 1;
-void foot_steps() {
-  background(255);
-  noStroke();
-  
-  // Black and White background
-  int lines = 20;
-  int size = height / (lines * 2);
-  for(int i = 0; i < lines && mousePressed == false; i++) {
-    fill(0);
-    rect(0, size * (i * 2), width, size);
-  }
-  
-  // Yellow rect 
-  fill(255, 255, 0);
-  rect(y1, x1, size * 2, size * 4);
-  
-  // Blue rect 
-  fill(0, 0, 102);
-  rect(y2, x2, size * 2, size * 4);
-  
-  // Movement
-  if (y1 + size * 4 > width || y1 < 0) xplus *= -1;
-  x1 += xplus;
-  x2 += xplus;
-}
-
-// Geometrical-Interactive
-// https://en.wikipedia.org/wiki/Caf%C3%A9_wall_illusion
+// https://michaelbach.de/ot/ang-cafewall/index.html
 void cafe_wall() {
   frameRate(60);
   background(255);
@@ -158,7 +77,39 @@ void cafe_wall() {
   
 }
 
-// https://www.illusionsindex.org/ir/ebbinghaus-illusion
+
+// https://michaelbach.de/ot/mot-feetLin/index.html
+int y1 = 0, y2 = 0;
+int x1 = 330, x2 = 470;
+int yplus = 1;
+void foot_steps() {
+  background(255);
+  noStroke();
+  
+  // Black and White background
+  int lines = 20;
+  int size = height / (lines * 2);
+  for(int i = 0; i < lines && mousePressed == false; i++) {
+    fill(0);
+    rect(0, size * (i * 2), width, size);
+  }
+  
+  // Yellow rect 
+  fill(255, 255, 0);
+  rect(x1, y1, size * 2, size * 4);
+  
+  // Blue rect 
+  fill(0, 0, 102);
+  rect(x2, y2, size * 2, size * 4);
+  
+  // Movement
+  if (y1 + size * 4 > height || y1 < 0) yplus *= -1;
+  y1 += yplus;
+  y2 += yplus;
+}
+
+
+// https://michaelbach.de/ot/cog-Ebbinghaus/index.html
 void ebbinghaus_illusion() {
   background(255);
   noStroke();
@@ -193,6 +144,90 @@ void ebbinghaus_illusion() {
     ellipse(620, 350, size_2, size_2);
     ellipse(720, 350, size_2, size_2);
   }
+}
+
+
+// https://michaelbach.de/ot/mot-reversePhi/index.html
+int state = 0;
+void mot_reversePhi(){
+  frameRate(14);
+  switch(state) {
+    case 0:
+      image(img_1_n, 0, 0);
+      state = (state + 1) % 4;
+      break;
+    case 1:
+      image(img_2_n, 0, 0);
+      state = (state + 1) % 4;
+      break;
+    case 2:
+      image(img_1, 0, 0);
+      state = (state + 1) % 4;
+      break;
+    case 3:
+      image(img_2, 0, 0);
+      state = (state + 1) % 4;
+      break;
+  }
+}
+
+
+// https://michaelbach.de/ot/col-whiteXmas/index.html
+void col_whiteXmas(){  
+  background(255);  
+  fill(0, 100, 230);
+  triangle(25, 600, 175, 200, 325, 600);
+  canvas.beginDraw();
+  canvas.noStroke();
+  canvas.background(0);
+  canvas.fill(0, 100, 230);  
+  canvas.triangle(mouseX-150, 600, mouseX, 200, 150 + mouseX, 600);
+  int lines = 15;
+  int size = height / (lines * 2);
+  canvas.loadPixels();
+  for(int i = 0; i < 800 ; i++){
+    for(int j = 0; j < 800 ; j++){
+      if((j / size)%2 == 0){
+        canvas.pixels[i + j*800] = color(0, 0);
+      }
+    }
+  } 
+  canvas.updatePixels();  
+  canvas.endDraw(); 
+  image(canvas,0,0);
+}
+
+
+// https://en.wikipedia.org/wiki/Lilac_chaser
+int numCircles = 12;
+int hidden = numCircles;
+void lilac_chaser(){ 
+  pushStyle();
+  frameRate(6);
+  background(170, 170, 170);
+  
+  // Draw center mark
+  stroke(0);
+  strokeWeight(3);
+  line(width/2, height/2 + 10, width/2, height/2 - 10);
+  line(width/2 + 10, height/2, width/2 - 10, height/2);
+  
+  float r = 250;
+  float theta = TWO_PI/numCircles;
+  int size = 80;
+  
+  // Draw Circles
+  fill(182, 102, 210, 70);
+  noStroke();
+  for (int i = 0; i < numCircles; i++) {
+    if (i != hidden) {
+      circle(width/2 + r * sin(theta*i), height/2 + r * cos(theta*i), size);
+    }
+  }
+  
+  // Update hidden
+  hidden = hidden <= 0 ? numCircles : (hidden - 1);
+  popStyle();
 }
 
 void keyPressed() {
