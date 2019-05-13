@@ -1,14 +1,23 @@
 int illusion = 1;
 PImage img_1, img_2, img_1_n, img_2_n;
 
+PGraphics canvas;
+
+String t1 = "41.jpg";
+String t2 = "42.jpg";
+
 void setup() {
   size(800, 800);
-  img_1 = loadImage("1.jpg");
-  img_2 = loadImage("2.jpg");
+  canvas = createGraphics(800,800);
+  canvas.beginDraw();
+  canvas.background(0,0);
+  canvas.endDraw();
+  img_1 = loadImage(t1);
+  img_2 = loadImage(t2);
   img_1.resize(width, height);
   img_2.resize(width, height);
-  img_1_n = loadImage("1.jpg");
-  img_2_n = loadImage("2.jpg");
+  img_1_n = loadImage(t1);
+  img_2_n = loadImage(t2);
   img_1_n.resize(width, height);
   img_2_n.resize(width, height);
   for (int i = 0; i < img_1.pixels.length ; i++) {
@@ -48,7 +57,6 @@ void col_whiteXmas(){
   fill(0);
   rect(0, 0, width/2, height);
   noStroke();
-
   fill(0, 0, 255);
   triangle(75, 0, 0, 300, 150, 300);
   int w = 30;
@@ -74,7 +82,9 @@ void col_whiteXmas(){
   for(int i = 0; i < lines && mousePressed == false; i++) {
     fill(0);
     rect(width/2, size * (i * 2)+size, width/2, size);
-  } 
+  }
+  
+  image(canvas,0,0);  
 
 }
 
