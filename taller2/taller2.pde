@@ -217,7 +217,7 @@ void lilac_chaser(){
   int size = 80;
   
   // Draw Circles
-  fill(182, 102, 210, 70);
+  fill(0, 0, 255, 70);
   noStroke();
   for (int i = 0; i < numCircles; i++) {
     if (i != hidden) {
