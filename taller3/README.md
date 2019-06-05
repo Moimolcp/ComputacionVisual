@@ -41,6 +41,13 @@ Para darle color a cierto píxel este se subdivide en 4 subpixeles y se verifica
 
 ![Resultados](raster2.PNG)
 
+Referencias:
+
+https://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/rasterization-stage
+
+https://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/rasterization-practical-implementation
+
+
 ## Entrega
 
 * Plazo: ~~2/6/19~~ 4/6/19 a las 24h.

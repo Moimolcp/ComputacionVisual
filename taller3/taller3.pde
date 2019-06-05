@@ -61,6 +61,7 @@ void setup() {
 
   // init the triangle that's gonna be rasterized
   randomizeTriangle();
+  println("Anti-aliasing: " + scale + "x");
 }
 
 void draw() {
@@ -81,6 +82,7 @@ void draw() {
 // Implement this function to rasterize the triangle.
 // Coordinates are given in the node system which has a dimension of 2^n
 int[][] colorV = { {255,0,0},{0,0,255},{0,255,0} };
+int scale = 4;
 void triangleRaster() {
   // node.location converts points from world to node
   // here we convert v1 to illustrate the idea
@@ -106,11 +108,6 @@ void triangleRaster() {
       //println("color " + red + " " + green + " " + blue);  
 
       // 3. Algoritmo de Anti-aliasing
-      int scale = 1;
-      if (antialiasing){
-        scale = 4;
-      }
-      
       int sum = 0;
       for (float k = i - sx/2 + sx/(scale*2); k < i + sx/2; k += sx/scale) {
         for (float l = j - sy/2 + sy/(scale*2); l < j + sy/2; l += sy/scale) {
@@ -176,8 +173,14 @@ void drawTriangleHint() {
 }
 
 void keyPressed() {
-   if (key == 'a')
-    antialiasing = !antialiasing;
+  if (key == '1') {
+    if (scale > 1) scale /= 2;
+    println("Anti-aliasing: " + scale + "x");
+  }
+  if (key == '2') {
+    scale *= 2;
+    println("Anti-aliasing: " + scale + "x");
+  }
   if (key == 'g')
     gridHint = !gridHint;
   if (key == 't')
