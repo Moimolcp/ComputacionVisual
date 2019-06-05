@@ -149,8 +149,10 @@ void randomizeTriangle() {
   v1 = new Vector(random(low, high), random(low, high));
   v2 = new Vector(random(low, high), random(low, high));
   v3 = new Vector(random(low, high), random(low, high));
-  while(edgeFunction(v1,v2,v3) < 0){
-    v3 = new Vector(random(low, high), random(low, high));
+  if(edgeFunction(v1,v2,v3) < 0){
+    Vector aux = v1;
+    v1 = v2;
+    v2 = aux;
   }
 }
 
