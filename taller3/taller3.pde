@@ -89,8 +89,8 @@ void triangleRaster() {
   
   float sx = width / int(pow(2, n)); 
   float sy = height / int(pow(2, n));
-  for (float i = -width/2; i <= width/2; i = i + sx) {
-    for (float j = -height/2; j <= height/2; j = j + sy) {
+  for (float i = -width/2 + sx/2; i <= width/2; i = i + sx) {
+    for (float j = -height/2 +sy/2; j <= height/2; j = j + sy) {
       Vector p = new Vector(i, j);
 
       // 2. Sombrear su superficie a partir de los colores de sus vértices.
@@ -107,8 +107,8 @@ void triangleRaster() {
       // 3. Algoritmo de Anti-aliasing
       int scale = 4;
       int sum = 0;
-      for (float k = i - sx/2; k < i + sx/2; k += sx/scale) {
-        for (float l = j - sy/2; l < j + sy/2; l += sy/scale) {
+      for (float k = i - sx/2 + sx/(scale*2); k < i + sx/2; k += sx/scale) {
+        for (float l = j - sy/2 + sy/(scale*2); l < j + sy/2; l += sy/scale) {
           Vector ps = new Vector(k, l);
           if (inside(v1,v2,v3,ps)) {
             sum += 1;
