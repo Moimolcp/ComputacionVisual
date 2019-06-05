@@ -30,7 +30,16 @@ Complete la tabla:
 
 ## Discusión
 
-Describa los resultados obtenidos. En el caso de anti-aliasing describir las técnicas exploradas, citando las referencias.
+Para la rasterización del triángulo lo más importante fue el uso de las coordenadas baricéntricas, a través del uso de la “edgeFunction” podemos determinar de qué lado de una línea(definida por dos vértices) se encuentra un punto en particular, aplicando esto a los tres lados del triángulo se puede determinar si un punto se encuentra dentro o fuera del triángulo(función “inside”), además de esto también nos permite calcular un peso o incidencia respecto a cada vértice para este punto, esto nos permite realizar el sombreado del triángulo asignándole un color a cada vértice.
+
+![Resultados](raster1.png)
+
+
+### Técnica de antialiasing: multi sampling
+
+Para darle color a cierto píxel este se subdivide en 4 subpixeles y se verifica cuántos de estos están dentro del triángulo, con la proporción de subpixeles dentro se calcula el alpha con el que será rellenado el píxel original, el color se obtiene a través de las coordenadas baricéntricas de dicho pixel.
+
+![Resultados](raster2.png)
 
 ## Entrega
 

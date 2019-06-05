@@ -17,7 +17,8 @@ int n = 4;
 // 2. Hints
 boolean triangleHint = true;
 boolean gridHint = true;
-boolean debug = true;
+boolean debug = false;
+boolean antialiasing = true;
 
 // 3. Use FX2D, JAVA2D, P2D or P3D
 String renderer = P3D;
@@ -105,7 +106,11 @@ void triangleRaster() {
       //println("color " + red + " " + green + " " + blue);  
 
       // 3. Algoritmo de Anti-aliasing
-      int scale = 4;
+      int scale = 1;
+      if (antialiasing){
+        scale = 4;
+      }
+      
       int sum = 0;
       for (float k = i - sx/2 + sx/(scale*2); k < i + sx/2; k += sx/scale) {
         for (float l = j - sy/2 + sy/(scale*2); l < j + sy/2; l += sy/scale) {
@@ -171,6 +176,8 @@ void drawTriangleHint() {
 }
 
 void keyPressed() {
+   if (key == 'a')
+    antialiasing = !antialiasing;
   if (key == 'g')
     gridHint = !gridHint;
   if (key == 't')
