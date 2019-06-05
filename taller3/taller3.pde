@@ -6,8 +6,7 @@ import nub.processing.*;
 // 1. Nub objects
 Scene scene;
 Node node;
-Vector v1, v2, v3,p;
-int[][] colorV = { {255,0,0},{0,0,255},{0,255,0} };
+Vector v1, v2, v3, p;
 
 // timing
 TimingTask spinningTask;
@@ -55,7 +54,7 @@ void setup() {
     }
   };
   scene.registerTask(spinningTask);
-
+  
   node = new Node();
   node.setScaling(width/pow(2, n));
 
@@ -72,76 +71,58 @@ void draw() {
     drawTriangleHint();
   pushMatrix();
   pushStyle();
- 
   scene.applyTransformation(node);
-  strokeWeight(0);
-  fill(255);
-  rectMode(CENTER);
-  Vector p2 = new Vector(-width/2,  -height/2);
-  rect(node.location(p2).x(), node.location(p2).y(), 1, 1);
-  Vector p3 = new Vector(width/2,  height/2);
-  rect(node.location(p3).x(), node.location(p3).y(), 1, 1);
   triangleRaster();
   popStyle();
   popMatrix();
- 
 }
 
 // Implement this function to rasterize the triangle.
 // Coordinates are given in the node system which has a dimension of 2^n
+int[][] colorV = { {255,0,0},{0,0,255},{0,255,0} };
 void triangleRaster() {
-  rectMode(CENTER);
   // node.location converts points from world to node
   // here we convert v1 to illustrate the idea
-  float sx = (width / int(pow(2, n)));
-  float sy = (height / int(pow(2, n)));
-  for(float i = -width/2 ; i <= (width/2);i = i + sx){
-     for(float j = -height/2 ; j <= (height/2);j = j + sy){
-       Vector p = new Vector(i, j);
-       
-       int scale = 4;
-       int sum = 0;
-       for(float k = i - sx/2; k < i + sx/2; k += sx/scale){
-         for(float l = j - sy/2; l < j + sy/2; l += sy/scale){
-           Vector p1 = new Vector(k, l);
-           if(inside(v1,v2,v3,p1)){
-             sum += 1;
-           }
-         }
-       }
-       
-       
-      //Vector p1 = new Vector(i,j);
+
+  strokeWeight(0);
+  rectMode(CENTER);
+  
+  float sx = width / int(pow(2, n)); 
+  float sy = height / int(pow(2, n));
+  for (float i = -width/2; i <= width/2; i = i + sx) {
+    for (float j = -height/2; j <= height/2; j = j + sy) {
+      Vector p = new Vector(i, j);
+
+      // 2. Sombrear su superficie a partir de los colores de sus vértices.
       float area = (edgeFunction(v1, v2, v3));
       float w1 = (edgeFunction(v1, v2, p))/area;
       float w2 = (edgeFunction(v2, v3, p))/area;
       float w3 = (edgeFunction(v3, v1, p))/area;
-     
-      float aux1 = colorV[0][0]*w1 + colorV[1][0]*w2 + colorV[2][0]*w3;
-      float aux2 = colorV[0][1]*w1 + colorV[1][1]*w2 + colorV[2][1]*w3;
-      float aux3 = colorV[0][2]*w1 + colorV[1][2]*w2 + colorV[2][2]*w3;
-      //println("color " + aux1 + " " + aux1 + " " +aux3 );
-       fill(aux1, aux2, aux3, 255 * sum / (scale * scale));        
-       rect(node.location(p).x(), node.location(p).y(),1,1);
-       /*
-       fill(aux1, aux2, aux3,100);
-       rect(round(node.location(p).x()-2), round(node.location(p).y()-1),1,1);
-       rect(round(node.location(p).x()-1), round(node.location(p).y()-2),1,1);
-       rect(round(node.location(p).x()), round(node.location(p).y()-1),1,1);
-       rect(round(node.location(p).x()-1), round(node.location(p).y()),1,1);
-       fill(aux1, aux2, aux3,50);
-       rect(round(node.location(p).x()-2), round(node.location(p).y()-2),1,1);
-       rect(round(node.location(p).x()-2), round(node.location(p).y()),1,1);
-       rect(round(node.location(p).x()), round(node.location(p).y()),1,1);
-       rect(round(node.location(p).x()-2), round(node.location(p).y()),1,1);
-       */
-           
-     }
+
+      int red = int(colorV[0][0]*w1 + colorV[1][0]*w2 + colorV[2][0]*w3);
+      int green = int(colorV[0][1]*w1 + colorV[1][1]*w2 + colorV[2][1]*w3);
+      int blue = int(colorV[0][2]*w1 + colorV[1][2]*w2 + colorV[2][2]*w3);
+      //println("color " + red + " " + green + " " + blue);  
+
+      // 3. Algoritmo de Anti-aliasing
+      int scale = 4;
+      int sum = 0;
+      for (float k = i - sx/2; k < i + sx/2; k += sx/scale) {
+        for (float l = j - sy/2; l < j + sy/2; l += sy/scale) {
+          Vector ps = new Vector(k, l);
+          if (inside(v1,v2,v3,ps)) {
+            sum += 1;
+          }
+        }
+      }
+      int alpha = int(255 * sum / (scale * scale));
+
+      // Draw rect
+      fill(red, green, blue, alpha);  
+      rect(node.location(p).x(), node.location(p).y(),1,1);
+    }
   }
- 
- 
- 
- 
+  
   if (debug) {
     pushStyle();
     stroke(255, 255, 0, 125);
@@ -162,22 +143,6 @@ boolean inside(Vector a, Vector b, Vector c, Vector p){
   return b1 && b2 && b3;
 }
 
-boolean insideAnti(Vector ap, Vector bp, Vector cp, Vector p,float s){
- 
-  Vector a = new Vector(ap.x()+s,ap.y()+s);
-  Vector b = new Vector(bp.x()+s,bp.y()+s);
-  Vector c = new Vector(cp.x()+s,cp.y()+s);
- 
-  boolean b1 = edgeFunction(a, b, p) >= 0;
-  boolean b2 = edgeFunction(b, c, p) >= 0;
-  boolean b3 = edgeFunction(c, a, p) >= 0;
- 
-  return b1 && b2 && b3;
-}
-
-
-
-
 void randomizeTriangle() {
   int low = -width/2;
   int high = width/2;
@@ -187,12 +152,6 @@ void randomizeTriangle() {
   while(edgeFunction(v1,v2,v3) < 0){
     v3 = new Vector(random(low, high), random(low, high));
   }
-  p = new Vector(1, 1);
- 
- 
- 
- 
- 
 }
 
 void drawTriangleHint() {
