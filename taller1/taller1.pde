@@ -56,7 +56,7 @@ int w = 555;
 int h = 312;
 
 void setup() {
-  size(1200, 600);
+  size(1200, 600, P2D);
   myMovie = new Movie(this, "test.mkv");
   c_img = createGraphics(w,h);
   c_edit = createGraphics(w,h);
@@ -101,7 +101,7 @@ void upText(){
 void upCanvas(){
   c_img.beginDraw();
   if (video) {    
-    c_img.image(myMovie,0,0,w,h);
+    c_img.image(myMovie.get(),0,0,w,h);
   }else {
     c_img.image(img,0,0);
   }
