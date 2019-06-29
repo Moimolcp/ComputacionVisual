@@ -1,5 +1,5 @@
 uniform int numLight;
-uniform int ambiental;
+uniform float ambiental;
 
 varying vec4 vertColor;
 varying vec3 cameraDirection;

@@ -7,6 +7,7 @@ uniform vec4[8] lightPosition;
 uniform int numLight;
 uniform int ambiental;
 
+
 attribute vec4 position;
 attribute vec4 color;
 attribute vec3 normal;
