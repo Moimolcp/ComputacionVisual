@@ -5,7 +5,7 @@ uniform mat3 normalMatrix;
 uniform vec4[8] lightPosition;
 
 uniform int numLight;
-uniform int ambiental;
+uniform float ambiental;
 
 
 attribute vec4 position;
