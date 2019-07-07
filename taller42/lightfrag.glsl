@@ -37,7 +37,7 @@ void main() {
     camera = normalize(TBN*camera);
     normal = texture2D(BumpMap, vertTexCoord.xy).rgb*2.0 - 1.0;
     normal = normalize(normal);
-    normal.y = -normal.y;
+    //normal.y = -normal.y;
   }
 
   vec3 totalDiffuse = vec3(0, 0, 0);
