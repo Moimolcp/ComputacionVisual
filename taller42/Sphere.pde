@@ -14,7 +14,7 @@ class Sphere extends Node {
     if (drawAxes)
       Scene.drawAxes(pg, _radius * 1.3);
     pg.noStroke();
-    pg.fill(isTracked() ? color(255, 0, 0) : _color);
+    pg.fill(_color);
     pg.sphere(isTracked() ? _radius * 1.2 : _radius);
     pg.stroke(255);
     if (bullseye)

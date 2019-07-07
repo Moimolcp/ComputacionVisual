@@ -1,27 +1,31 @@
-uniform int numLight;
-uniform float ambiental;
+uniform int lightCount;
+uniform vec4 lightPosition[8];
+uniform vec3 lightNormal[8];
+uniform vec3 lightDiffuse[8];
+uniform vec3 lightSpecular[8]; 
+uniform vec3 ambient;
+uniform float shininess;
 
 varying vec4 vertColor;
-varying vec3 cameraDirection;
-varying vec3[8] lightDirectionReflected;
-
 varying vec3 ecNormal;
-varying vec3[8] lightDir;
+
+varying vec3 cameraDirection;
+varying vec3 lightDir[8];
+varying vec3 lightDirectionReflected[8];
 
 void main() {
   vec3 camera = normalize(cameraDirection);
   vec3 normal = normalize(ecNormal);
-  gl_FragColor = vec4(ambiental, ambiental, ambiental, 1) * vertColor; 
-  for(int i = 0; i <  min(numLight,8); i++){
 
+  vec3 totalDiffuse = vec3(0, 0, 0);
+  vec3 totalSpecular = vec3(0, 0, 0);
+  for(int i = 0; i < lightCount; i++){
   	vec3 direction_esp = normalize(lightDirectionReflected[i]);  	
-  	float intensity_esp = max(0.0, dot(direction_esp, camera));
+  	totalSpecular += lightSpecular[i] * pow(max(0.0, dot(direction_esp, camera)), shininess);
 
   	vec3 direction_dif = normalize(lightDir[i]);  	
-  	float intensity_dif = max(0.0, dot(direction_dif, normal));
-
-  	gl_FragColor = gl_FragColor + vec4(intensity_esp, intensity_esp, intensity_esp, 1) * vertColor;
-  	gl_FragColor = gl_FragColor + vec4(intensity_dif, intensity_dif, intensity_dif, 1) * vertColor;
-
+    totalDiffuse += lightDiffuse[i] * max(0.0, dot(direction_dif, normal));
   }
+
+  gl_FragColor = (vec4(ambient, 1) + vec4(totalDiffuse, 1) + vec4(totalSpecular, 1) ) * vertColor;
 }
