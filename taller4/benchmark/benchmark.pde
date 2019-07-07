@@ -106,7 +106,8 @@ Button b6 = new Button(350, 500,1, "Gaussian blur");
 void upText(){
   background(209);
   fill(0);
-  text("FrameRate: " + frameRate/60 * 100 + " %", 615, 352);
+  String f = shaderbool ? "Hardware" : "Software";
+  text("FrameRate by " + f + " : " + frameRate/60 * 100 + " %", 615, 352);
   
   b1.draw(g);
   b2.draw(g);
