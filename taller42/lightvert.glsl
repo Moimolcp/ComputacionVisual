@@ -17,6 +17,7 @@ varying vec3 ecNormal;
 varying vec3 cameraDirection;
 varying vec3 lightDir[8];
 varying vec3 lightDirectionReflected[8];
+varying float lightDistance[8];
 
 void main() {
   gl_Position = transform * position;
@@ -27,6 +28,7 @@ void main() {
   	lightDir[i] = normalize(lightPosition[i].xyz - ecPosition);
   	vec3 lightDirection = normalize(lightPosition[i].xyz - ecPosition);
   	lightDirectionReflected[i] = reflect(-lightDirection, ecNormal);
+    lightDistance[i] = distance(lightPosition[i].xyz,ecPosition);
   }  
   cameraDirection = normalize(0 - ecPosition);  
 

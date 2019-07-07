@@ -3,12 +3,17 @@ import nub.core.*;
 import nub.processing.*;
 
 Scene scene;
-boolean drawAxes = false, bullseye = true;
+boolean drawAxes = false, bullseye = false;
 
-PShape can, sphere;
+PShape can, sphere,box;
 float angle;
 PShader lightShader;
 int detail = 20;
+
+Node[] lights = new Node[8];
+color[] colors = new color[8];
+int nlights = 2;
+
 
 void setup() {
   size(800, 800, P3D);
@@ -16,25 +21,30 @@ void setup() {
   scene.setFrustum(new Vector(0, 0, 0), new Vector(800, 800, 800));
   scene.togglePerspective();
   scene.fit();
-   
-  l1 = new Sphere(scene, c1, 50);
-  l2 = new Sphere(scene, c2, 50);
-  l1.setPosition(new Vector(width/4, height/4, 300));
-  l2.setPosition(new Vector(3*width/4, 3*height/4, 300));
-  l1.setPickingThreshold(50);
-  l2.setPickingThreshold(50);
-   
+  
+  colors[0] = color(255, 0, 0); 
+  colors[1] = color(0, 0, 255);  
+  for(int i = 2;i < 8;i++){
+    colors[i] = color(random(255), random(255), random(255));
+  }   
+  for(int i = 0;i < 8;i++){
+    lights[i] = new Sphere(scene, colors[i], 50);
+    lights[i].setPosition(new Vector(random(-2*width/4,2*width/4), random(-height/2,height/2), 300));
+    lights[i].setPickingThreshold(50);
+    lights[i].cull(true);
+  }  
+  
   lightShader = loadShader("lightfrag.glsl", "lightvert.glsl");
   can = createCan(100, 200, detail);
+  noStroke();
   sphere = createShape(SPHERE, 200);
+  box = createShape(BOX, 400);
 }
 
 
 float shininess = 1.0;
 color ambient = color(32, 64, 32);
-Node l1, l2;
-color c1 = color(255, 0, 0); 
-color c2 = color(0, 0, 255);
+
 void draw() {    
   background(127);
   
@@ -42,25 +52,29 @@ void draw() {
   scene.drawAxes();
   scene.render();
   
-  Vector light1 = l1.position();
-  Vector light2 = l2.position();
-  
   shader(lightShader);
   lightShader.set("shininess", shininess);
   // Ambient Light (Green)
   lightShader.set( "ambient", new PVector(red(ambient), green(ambient), blue(ambient)).div(255) );
   // Light1 (Red)
-  lightSpecular(255, 255, 255);
-  pointLight(red(c1), green(c1), blue(c1), light1.x(), light1.y(), light1.z());
-  // Light2 (Blue)
-  lightSpecular(255, 255, 255);
-  pointLight(red(c2), green(c2), blue(c2), light2.x(), light2.y(), light2.z());
+  
+  for(int i = 0;i < nlights;i++){
+    lights[i].cull(false);
+    Vector lightv = lights[i].position();
+    lightSpecular(red(colors[i]), green(colors[i]), blue(colors[i]));
+    pointLight(red(colors[i]), green(colors[i]), blue(colors[i]), lightv.x(), lightv.y(), lightv.z());
+  }
   
   // Draw the shape
   pushMatrix();
   translate(width/2, height/2);
-  rotateY(angle);
   shape(sphere);
+  translate(width, 0);
+  shape(box);
+  
+  translate(-2*width, 0);
+  rotateY(angle);
+  shape(can);
   angle += 0.01;
   popMatrix();
   
@@ -103,6 +117,29 @@ PShape createCan(float r, float h, int detail) {
 }
 
 void keyPressed(){
+  if(key == 'w'){
+    nlights += 1;
+    nlights = min(nlights,8);
+    for(int i = 0;i < 8;i++){
+      if(nlights <= i){
+        lights[i].cull(true);  
+      }else{
+        lights[i].cull(false);
+      }
+    }
+    
+  }
+  if(key == 's'){
+    nlights -= 1;
+    nlights = max(nlights,2);
+    for(int i = 0;i < 8;i++){
+      if(nlights <= i){
+        lights[i].cull(true);  
+      }else{
+        lights[i].cull(false);
+      }
+    }
+  }
   if(key == '+'){
     detail = min(200,detail+10);
     can = createCan(100, 200, detail);
