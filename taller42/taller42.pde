@@ -14,6 +14,10 @@ Node[] lights = new Node[8];
 color[] colors = new color[8];
 int nlights = 2;
 
+boolean bump = false;
+
+
+PImage bump1,bump2;
 
 void setup() {
   size(800, 800, P3D);
@@ -22,8 +26,10 @@ void setup() {
   scene.togglePerspective();
   scene.fit();
   
-  colors[0] = color(255, 0, 0); 
-  colors[1] = color(0, 0, 255);  
+  colors[0] = color(255, 0, 0);
+  colors[0] = color(0, 0, 0);
+  colors[1] = color(0, 0, 255);
+  colors[1] = color(255, 255, 255);
   for(int i = 2;i < 8;i++){
     colors[i] = color(random(255), random(255), random(255));
   }   
@@ -39,10 +45,14 @@ void setup() {
   noStroke();
   sphere = createShape(SPHERE, 200);
   box = createShape(BOX, 400);
+  
+  bump1 = loadImage("bump.png");
+  bump2 = loadImage("bump2.png");
+  
 }
 
 
-float shininess = 1.0;
+float shininess = 8.0;
 color ambient = color(32, 64, 32);
 
 void draw() {    
@@ -58,6 +68,8 @@ void draw() {
   lightShader.set( "ambient", new PVector(red(ambient), green(ambient), blue(ambient)).div(255) );
   // Light1 (Red)
   
+  lightShader.set("bump",bump);
+  
   for(int i = 0;i < nlights;i++){
     lights[i].cull(false);
     Vector lightv = lights[i].position();
@@ -68,10 +80,13 @@ void draw() {
   // Draw the shape
   pushMatrix();
   translate(width/2, height/2);
+  lightShader.set("BumpMap",bump2);
   shape(sphere);
   translate(width, 0);
+  //rotateY(angle);
+  lightShader.set("BumpMap",bump1);
   shape(box);
-  
+  //rotateY(-angle);
   translate(-2*width, 0);
   rotateY(angle);
   shape(can);
@@ -153,5 +168,8 @@ void keyPressed(){
   }
   if(key == '2'){
    shininess = min(128, shininess*2);
+  }
+  if(key == 'b'){
+    bump = !bump;
   }
 }

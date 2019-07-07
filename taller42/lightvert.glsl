@@ -11,26 +11,29 @@ uniform vec3 lightSpecular[8];
 attribute vec4 position;
 attribute vec4 color;
 attribute vec3 normal;
+attribute vec2 texCoord;
 
 varying vec4 vertColor;
 varying vec3 ecNormal;
 varying vec3 cameraDirection;
 varying vec3 lightDir[8];
-varying vec3 lightDirectionReflected[8];
 varying float lightDistance[8];
+varying vec3 ecPosition;
+varying vec4 vertTexCoord;
 
 void main() {
   gl_Position = transform * position;
-  vec3 ecPosition = vec3(modelview * position);  
+  ecPosition = vec3(modelview * position);  
   ecNormal = normalize(normalMatrix * normal);
   
   for(int i = 0; i < lightCount; i++){
   	lightDir[i] = normalize(lightPosition[i].xyz - ecPosition);
   	vec3 lightDirection = normalize(lightPosition[i].xyz - ecPosition);
-  	lightDirectionReflected[i] = reflect(-lightDirection, ecNormal);
     lightDistance[i] = distance(lightPosition[i].xyz,ecPosition);
   }  
   cameraDirection = normalize(0 - ecPosition);  
 
   vertColor = color;
+  vertTexCoord = vec4(texCoord, 1.0, 1.0);
+
 }
