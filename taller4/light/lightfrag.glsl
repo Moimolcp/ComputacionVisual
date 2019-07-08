@@ -34,7 +34,7 @@ void main() {
     vec3 B = normalize(-Q1*st2.s + Q2*st1.s);
     TBN = mat3(T, B, ecNormal);
 
-    camera = normalize(TBN*camera);
+    camera = normalize(camera*TBN);
     normal = texture2D(BumpMap, vertTexCoord.xy).rgb*2.0 - 1.0;
     normal.y = -normal.y;
     normal = normalize(normal);
@@ -45,7 +45,7 @@ void main() {
   vec3 totalSpecular = vec3(0, 0, 0);
   for(int i = 0; i < lightCount; i++){
 
-    vec3 lightDirTS = TBN * normalize( lightDir[i] );
+    vec3 lightDirTS = normalize( lightDir[i] ) * TBN;
     
     float b = 1.0 / (500*500 * 0.9);
 
